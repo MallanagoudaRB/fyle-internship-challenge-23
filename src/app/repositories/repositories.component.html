@@ -1,0 +1,39 @@
+<div class="content">
+  <div *ngIf="isLoading; else content" class="skeleton-loader mt15"></div>
+  <ng-template #content>
+  </ng-template>
+<div class="content">
+<div *ngIf="userRepos.length" class="mt15">
+  <div class="flex justify-between">
+    <h2 class="text-2xl font-semibold">User Repositories</h2>
+    <!-- ItemsPerPageComponent -->
+    <app-items-per-page
+      (itemsPerPageChange)="setItemsPerPageChange($event)"
+    ></app-items-per-page>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-4">
+    <div *ngFor="let repo of userRepos" class="repo">
+      <div class="flex justify-between">
+        <h3 style="padding-left: 20px; font-weight: bolder; color: blue; padding-top: 20px;" class="text-lg font-semibold">{{ repo.name }}</h3>
+        <p style="padding-right: 10px;" class="text-gray-500 mt-1 ml-2">{{ repo.updated_at | date: 'mediumDate' }}</p>
+      </div>
+      <p style="padding-left: 20px;" class="text-gray-700 mb-1">{{ repo.description }}</p>
+      <div>
+        <p style="padding-left: 20px;"  *ngIf="repo.html_url">Repo: <a class="text-blue-500" [href]="repo.html_url" target="_blank">{{ repo.html_url }}</a></p>
+        <p style="padding-left: 20px;" *ngIf="repo.homepage">Live: <a class="text-blue-500" [href]="repo.homepage" target="_blank">{{ repo.homepage }}</a></p>
+      </div>
+      <div class="flex justify-between mt-1 mb-1">
+        <p style="padding-left: 20px;" class="font-semibold" *ngIf="repo.forks_count !== null">Forks: {{ repo.forks_count }}</p>
+        <p style="padding-right: 10px;" class="font-semibold" *ngIf="repo.stargazers_count !== null">Stars: {{ repo.stargazers_count }}</p>
+      </div>
+      <div *ngIf="repo.languages">
+        <div class="flex flex-wrap">
+          <div *ngFor="let lang of repo.languages" class="bg-blue-500 text-white px-2 py-1 rounded-md m-1">{{ lang }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
